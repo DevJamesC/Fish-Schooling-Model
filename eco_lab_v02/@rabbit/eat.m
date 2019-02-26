@@ -23,17 +23,17 @@ function [agt,eaten]=eat(agt,cn)
 global  ENV_DATA 
 
 pos=agt.pos;                            %extract current position 
-cfood=agt.food;                         %get current agent food level
+cfood=agt.food;                         %get current agent food level (DELETE)
 cpos=round(pos);                        %round up position to nearest grid point
-pfood=ENV_DATA.food(cpos(1),cpos(2));   %obtain environment food level at current location
+pfood=ENV_DATA.food(cpos(1),cpos(2));   %obtain environment food level at current location (Get packing desity)
 
-if pfood>=1                             %if food exists at this location
-    ENV_DATA.food(cpos(1),cpos(2))=ENV_DATA.food(cpos(1),cpos(2))-1;  %reduce environment food by one unit
-    agt.food=cfood+1;                    %increase agent food by one unit
-    eaten=1;                             %rabbit has eaten - set flag to one
+if pfood>=1                             %if food exists at this location (if not 100% saturated with fish)
+    ENV_DATA.food(cpos(1),cpos(2))=ENV_DATA.food(cpos(1),cpos(2))-1;  %reduce environment food by one unit (call move method/ increase density)
+    agt.food=cfood+1;                    %increase agent food by one unit (DELETE)
+    eaten=1;                             %rabbit has eaten - set flag to one (DELETE)
 else
-    agt.food=cfood-1;                   %decrease agent food by one unit
-    eaten=0;                            %flag tells rabbit to migrate
+    agt.food=cfood-1;                   %decrease agent food by one unit (DELETE)
+    eaten=0;                            %flag tells rabbit to migrate (DELETE)
 end
     
    
