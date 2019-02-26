@@ -5,10 +5,10 @@ function [agt]=migrate(agt,cn)
 %cn - current agent number
 
 %SUMMARY OF RABBIT MIGRATE RULE
-%Rabbits will migrate only if they have not eaten
-%Rabbits will always try to migrate towards the nearest food source
-%The rabbit will extract the distibution of food in its LOCAL environment (at
-%distances < its daily migration limit)
+%Rabbits will migrate only if they have not eaten (DELETE)
+%Rabbits will always try to migrate towards the nearest food source (Fish will attempt to migrate (with randomness) towards high fish density
+%The rabbit will extract the distibution of food in its LOCAL environment (at (DELETE)
+%distances < its daily migration limit) (DELETE)
 %It will identify the location of the nearest food and migrate into it.
 %It's new position will be randomly placed within this square
 %If no food is detected within its search radius it will move randomly (up
@@ -17,20 +17,20 @@ function [agt]=migrate(agt,cn)
 global ENV_DATA IT_STATS N_IT 
 %N_IT is current iteration number
 %IT_STATS is data structure containing statistics on model at each
-%iteration (no. agents etc)
+%iteration (no. agents etc) (DELETE)
 %interpolated to each grid point
-%ENV_DATA is a data structure containing information about the model
+%ENV_DATA is a data structure containing information about the model (change food to max and current fish in square)
    %environment
    %    ENV_DATA.shape - shape of environment - FIXED AS SQUARE
-   %    ENV_DATA.units - FIXED AS KM
-   %    ENV_DATA.bm_size - length of environment edge in km
+   %    ENV_DATA.units - FIXED AS KM (change to be M)
+   %    ENV_DATA.bm_size - length of environment edge in km (In M)
    %    ENV_DATA.food is  a bm_size x bm_size array containing distribution
-   %    of food
+   %    of food (containing max fish) (add another peramity saying current fish)
 
-mig=0;                               %indicates whether rabbit has successfully migrated
+mig=0;                               %indicates whether rabbit has successfully migrated (DELETE)
 pos=agt.pos;                         %extract current position 
 cpos=round(pos);                     %round up position to nearest grid point   
-spd=agt.speed;                       %rabbit migration speed in units per iteration - this is equal to the food search radius
+spd=agt.speed;                       %rabbit migration speed in units per iteration - this is equal to the food search radius (perception radius of fish (speed is always 1))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %This function reduces the computational overhead. Only LOCAL area
@@ -38,18 +38,18 @@ spd=agt.speed;                       %rabbit migration speed in units per iterat
 %loc_food is food distribution in local search area
 %xmin in minimum x co-ord of this area
 %ymin is minimum y co-ord of this area
-[loc_food,xmin,ymin]=extract_local_food(cpos,spd);
+[loc_food,xmin,ymin]=extract_local_food(cpos,spd); %(algorithem for perception)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  
-mig=0;                          %flag will be reset to one if rabbit migrates
-[xf,yf]=find(loc_food);        %extract all rows (=x) and columns (=y) of food matrix where food is present
+mig=0;                          %flag will be reset to one if rabbit migrates (DELETE)
+[xf,yf]=find(loc_food);        %extract all rows (=x) and columns (=y) of food matrix where food is present (Desity matrix)
 if ~isempty(xf)      
     xa=xmin+xf-1;                  %x co-ordiantes of all squares containing food
     ya=ymin+yf-1;                  %y co-ordiantes of all squares containing food
     csep=sqrt((xa-pos(:,1)).^2+(ya-pos(:,2)).^2);   %calculate distance to all food
     [d,nrst]=min(csep);     %d is distance to closest food, nrst is index of that food
     if d<=spd       %if there is at least one lot of food within the search radius        
-        if length(nrst)>1       %if more lot of food located at same distance then randomly pick one to head towards
+        if length(nrst)>1       %if more lot of food located at same distance then randomly pick one to head towards (Modify this to get 380 weighted movement)
             s=round(rand*(length(nrst)-1))+1;
             nrst=nrst(s);
         end
@@ -65,13 +65,13 @@ if ~isempty(xf)
     end
 end
     
-if mig==0                                   %rabbit has been unable to find food, so chooses a random direction to move in      
+if mig==0                                   %rabbit has been unable to find food, so chooses a random direction to move in (if can't find fish, then move unweighted)     
     cnt=1;
     dir=rand*2*pi;              
     while mig==0&cnt<=8                     
         npos(1)=pos(1)+spd*cos(dir);        %new x co-ordinate
         npos(2)=pos(2)+spd*sin(dir);        %new y co-ordinate
-        if npos(1)<ENV_DATA.bm_size&npos(2)<ENV_DATA.bm_size&npos(1)>=1&npos(2)>=1   %check that fox has not left edge of model - correct if so.
+        if npos(1)<ENV_DATA.bm_size&npos(2)<ENV_DATA.bm_size&npos(1)>=1&npos(2)>=1   %check that fox has not left edge of model - correct if so. (DELETE)
            mig=1;
         end
         cnt=cnt+1;
