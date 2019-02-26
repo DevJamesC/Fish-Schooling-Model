@@ -1,4 +1,4 @@
-function ecolab(size,nr,nf,nsteps,fmode,outImages)
+function ecolab(size,nr,nf,nsteps,fmode,outImages) %remove nf
 
 %ECO_LAB  agent-based predator-prey model, developed for
 %demonstration purposes only for University of Sheffield module
@@ -49,7 +49,7 @@ function ecolab(size,nr,nf,nsteps,fmode,outImages)
         [agent,n]=agnt_solve(agent);     %the function which calls the rules
         plot_results(agent,nsteps,fmode,outImages); %updates results figures and structures
         %mov(n_it)=getframe(fig3);
-        if n<=0                          %if no more agents, then stop simulation
+        if n<=0                          %if no more agents, then stop simulation %(DELETE)
             break
             disp('General convergence criteria satisfied - no agents left alive! > ')
         end
