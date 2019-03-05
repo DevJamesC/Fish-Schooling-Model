@@ -7,6 +7,7 @@ ENVIRONMENT.shape='square';
 ENVIRONMENT.units='metres_cubed';
 ENVIRONMENT.size=size;
 ENVIRONMENT.space=zeros(size, size);
+ENVIRONMENT.density=PARAM.MAX_DENSITY;
 
 end
 
