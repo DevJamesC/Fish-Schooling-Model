@@ -4,7 +4,7 @@ function [agents] = create_fish(nf)
 % creates the objects representing each fish
 
 global ENVIRONMENT PARAM
-
+MAX_DENSITY = PARAM.MAX_DENSITY;
 s=ENVIRONMENT.size;
 
     for f=1:nf
@@ -15,10 +15,8 @@ s=ENVIRONMENT.size;
             pos = round((s-1)*rand(1, 2)+1);
             %will be a 1x2 matrix like [1,2]
         end
-        agents{f} = fish(pos,PARAM.MAX_DENSITY);
-        %perhaps use populate function to populate environment using code
-        %below so like
-        %populate(pos);
+        agents{f} = fish(pos,MAX_DENSITY);
+        % add the fish to the environment space
         ENVIRONMENT.space(pos(1, 1), pos(1, 2)) = ENVIRONMENT.space(pos(1, 1), pos(1, 2)) + 1;
         %like array value calling another array value
     end

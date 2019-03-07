@@ -1,7 +1,7 @@
 function create_environment(size)
 %UNTITLED5 Summary of this function goes here
 %   Detailed explanation goes here
-global ENVIRONMENT
+global ENVIRONMENT PARAM
 
 ENVIRONMENT.shape='square';
 ENVIRONMENT.units='metres_cubed';
