@@ -15,6 +15,7 @@ s=ENVIRONMENT.size;
             pos = round((s-1)*rand(1, 2)+1);
             %will be a 1x2 matrix like [1,2]
         end
+        disp(pos);
         agents{f} = fish(pos,MAX_DENSITY);
         % add the fish to the environment space
         ENVIRONMENT.space(pos(1, 1), pos(1, 2)) = ENVIRONMENT.space(pos(1, 1), pos(1, 2)) + 1;

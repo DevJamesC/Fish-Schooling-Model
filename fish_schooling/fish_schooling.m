@@ -9,12 +9,16 @@ function fish_schooling(size, nf, nsteps)
 %nf - number of fish agents
 %nsteps - number of iterations required
 
+%clear any global variables/ close figures from previous simulations
+clear global
+close all
+    
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %MODEL INITIALISATION
 initialise_params;                      %sets the parameters for this simulation
 create_environment(size);           %creates environment data structure, given an environment size
 %random_selection(1);                %randomises random number sequence (NOT agent order). If input=0, then simulation should be identical to previous for same initial values
-[agent]=create_fish(nf);       %creates nf fish agents and places them in a cell array called 'agents'
+[agents]=create_fish(nf);       %creates nf fish agents and places them in a cell array called 'agents'
 %initialise_results(nr,nf,nsteps);   %initilaises structure for storing results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -23,18 +27,22 @@ global N_IT ENVIRONMENT PARAM
 % N_IT - current iteration number 
 % PARAM - contains the max density 
 % ENVIRONMENT - data structure representing the environment
-
-
+dens=ENVIRONMENT.space;
+disp('dens');
+disp(dens);
 %MODEL EXECUTION
-for i=1:nsteps
-    if i == 0
-        initialise(size, nf);
-    else
-        update
+%execute for number of iterations
+for n_it=1:nsteps
+    N_IT=n_it;
+    % update agents for number of agents 
+    for i=1:length(agents)
+    	agents{i}=move(agents{i});     %the function which calls the rules
     end
+        %plot_results(agent,nsteps,fmode,outImages); %updates results figures and structures
 end
- 
+disp(ENVIRONMENT.space);
+clear global
+end
 
 
-end
 
