@@ -13,13 +13,45 @@ down=0;
 lowerLeft=0;
 lowerRight=0;
 changes=[0,0,0,0,0,0,0,0];
+% vector with changing size depending on perception 
+perception = 1:1:(fish.perception-1);
+perceptionReverse = sort(perception,'descend');
+
+%     %calculates weights for upper left and upper right, depending on input
+%     function [weight] = uppers(direction)
+%         if(direction=='upperLeft')           
+%             for i = perception*-1
+%                 for j = perception*-1
+%                     if (((fish.position(1)+j<=0) || fish.position(2)+i<=0)==1)
+%                          upperLeft = dens(fish.position(1), fish.position(2))./max(abs(i), abs(j));
+%                     else      
+%                          upperLeft = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
+%                          changes(1)=1;
+%                     end
+%                 end
+%             end
+%         else
+%             for i = perception
+%                 for j = perception*-1
+%                     if ((fish.position(1)+j<=0) || (fish.position(2)+i>ENVIRONMENT.size))
+%                          upperRight = dens(fish.position(1), fish.position(2));
+%                     else
+%                          upperRight = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
+%                          changes(2)=1;
+%                     end
+%                 end
+%             end                           
+%         end
+%     end
+% 
+%         
 
 
 % environment densities
 dens = ENVIRONMENT.space;
 
- for i = [-2, -1]
-     for j = [-2, -1]
+ for i = perceptionReverse*-1
+     for j = perceptionReverse*-1
          if (((fish.position(1)+j<=0) || fish.position(2)+i<=0)==1)
              upperLeft = dens(fish.position(1), fish.position(2))./max(abs(i), abs(j));
          else      
@@ -28,10 +60,9 @@ dens = ENVIRONMENT.space;
          end
      end
  end
-
 % upper right
- for i = [2, 1]
-     for j = [-2, -1]
+ for i = perceptionReverse
+     for j = perceptionReverse*-1
          if ((fish.position(1)+j<=0) || (fish.position(2)+i>ENVIRONMENT.size))
              upperRight = dens(fish.position(1), fish.position(2));
          else
@@ -44,8 +75,8 @@ dens = ENVIRONMENT.space;
  %disp(upperRight);
  
  %lower left
- for i = [-2, -1]
-      for j = [2, 1]
+ for i = perceptionReverse*-1
+      for j = perceptionReverse
           if((fish.position(1)+j>ENVIRONMENT.size) || (fish.position(2)+i<=0))
              lowerLeft = dens(fish.position(1),fish.position(2));
           else
@@ -58,8 +89,8 @@ dens = ENVIRONMENT.space;
  %disp(lowerLeft);
  
  %lower right
- for i = [2, 1]
-      for j = [2, 1]
+ for i = perceptionReverse
+      for j = perceptionReverse
           if((fish.position(1)+j>ENVIRONMENT.size) || (fish.position(2)+i>ENVIRONMENT.size))
              lowerRight = dens(fish.position(1),fish.position(2));
           else
@@ -72,7 +103,7 @@ dens = ENVIRONMENT.space;
  %disp(lowerRight);
  
  %right
- for i = 1:2
+ for i = perception
      if((fish.position(2)+i>ENVIRONMENT.size))
          right = right + dens(fish.position(1), fish.position(2));
      else
@@ -84,7 +115,7 @@ dens = ENVIRONMENT.space;
  %disp(right);
  
  %left
- for i = 1:2
+ for i = perception
      if((fish.position(2)-i<=0))
          left = dens(fish.position(1), fish.position(2));
      else
@@ -96,7 +127,7 @@ dens = ENVIRONMENT.space;
  %disp(left);
  
  %up
- for j = 1:2
+ for j = perception
      if((fish.position(1)-j<=0))
          up = dens(fish.position(1), fish.position(2));
      else
@@ -108,7 +139,7 @@ dens = ENVIRONMENT.space;
 % disp(up);
  
  %down
- for j = 1:2
+ for j = perception
      if((fish.position(1)+j>ENVIRONMENT.size))
          down = dens(fish.position(1), fish.position(2));
      else
