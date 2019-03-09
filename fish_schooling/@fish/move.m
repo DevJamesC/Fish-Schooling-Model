@@ -25,8 +25,10 @@ dens = ENVIRONMENT.space;
 %calculate weighting for upper left
  for i = perceptionReverse*-1
      for j = perceptionReverse*-1
-         % check if this area is off the grid, if so then dont change the
-         % fish's position, if not then go ahead and change position
+         % check if this area is off the grid, if so then weight is
+         % calculated off current position,
+         % if not then go ahead and calculate weight of
+         % the positions in that direction 
          if (((fish.position(1)+j<=0) || fish.position(2)+i<=0))
              upperLeft = dens(fish.position(1), fish.position(2))./max(abs(i), abs(j));
          else      
@@ -130,7 +132,7 @@ col = fish.position(2);
 % position 
 switch true
     case (weight == upperLeft)
-        if(changes(1)==1)    
+        if(changes(1)==1) && (dens(row-1,col-1)<3)
             dens(row-1,col-1)=dens(row-1,col-1)+1;
             dens(row,col)= dens(row,col)-1;
             pos = [row-1,col-1];
@@ -138,7 +140,7 @@ switch true
             pos = [row,col];
         end
     case(weight == upperRight)
-        if(changes(2)==1)  
+        if(changes(2)==1) && (dens(row-1,col+1)<3)
             dens(row-1,col+1)=dens(row-1,col+1)+1;
             dens(row,col)= dens(row,col)-1;
 
@@ -147,7 +149,7 @@ switch true
             pos = [row,col];
         end
      case(weight == right)
-         if(changes(5)==1)  
+         if(changes(5)==1) && (dens(row,col+1)<3)
             dens(row,col+1)=dens(row,col+1)+1;
             dens(row,col)= dens(row,col)-1;
 
@@ -156,7 +158,7 @@ switch true
             pos = [row,col];
          end
      case(weight == left) 
-         if(changes(6)==1)
+         if(changes(6)==1) && (dens(row,col-1)<3)
             dens(row,col-1)=dens(row,col-1)+1;
             dens(row,col)= dens(row,col)-1;
 
@@ -165,7 +167,7 @@ switch true
             pos = [row,col];
          end
      case(weight == up)
-         if(changes(7)==1)        
+         if(changes(7)==1) && (dens(row-1,col)<3)  
             dens(row-1,col)=dens(row-1,col)+1;
             dens(row,col)= dens(row,col)-1;
             pos = [row-1,col];
@@ -174,7 +176,7 @@ switch true
 
          end
      case(weight == down)
-         if(changes(8)==1)             
+         if(changes(8)==1) && (dens(row+1,col)<3)           
             dens(row+1,col)=dens(row+1,col)+1;
             dens(row,col)= dens(row,col)-1;
 
@@ -184,7 +186,7 @@ switch true
 
          end
      case(weight == lowerLeft)
-         if(changes(3)==1)
+         if(changes(3)==1)  && (dens(row+1,col-1)<3)
             dens(row+1,col-1)=dens(row+1,col-1)+1;
             dens(row,col)= dens(row,col)-1;
 
@@ -194,7 +196,7 @@ switch true
 
          end
      case(weight == lowerRight)
-         if(changes(4)==1)
+         if(changes(4)==1) && (dens(row+1,col+1)<3)
             dens(row+1,col+1)=dens(row+1,col+1)+1;
             dens(row,col)= dens(row,col)-1;
 
