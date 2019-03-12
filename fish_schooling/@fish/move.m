@@ -29,10 +29,8 @@ dens = ENVIRONMENT.space;
          % calculated off current position,
          % if not then go ahead and calculate weight of
          % the positions in that direction 
-         if (((fish.position(1)+j<=0) || fish.position(2)+i<=0))
-             upperLeft = dens(fish.position(1), fish.position(2));
-         else      
-             upperLeft = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
+         if (((fish.position(1)+j>0) && fish.position(2)+i>0))   
+             upperLeft = upperLeft + dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(1)=1;
          end
      end
@@ -41,10 +39,8 @@ dens = ENVIRONMENT.space;
 % calculate weighting for upper right
  for i = perceptionReverse
      for j = perceptionReverse*-1
-         if ((fish.position(1)+j<=0) || (fish.position(2)+i>ENVIRONMENT.size))
-             upperRight = dens(fish.position(1), fish.position(2));
-         else
-             upperRight = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
+         if ((fish.position(1)+j>0) && (fish.position(2)+i<ENVIRONMENT.size))
+             upperRight = upperRight + dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(2)=1;
          end
      end
@@ -53,10 +49,8 @@ dens = ENVIRONMENT.space;
  %calculate weighting for lower left
  for i = perceptionReverse*-1
       for j = perceptionReverse
-          if((fish.position(1)+j>ENVIRONMENT.size) || (fish.position(2)+i<=0))
-             lowerLeft = dens(fish.position(1),fish.position(2));
-          else
-             lowerLeft = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
+          if((fish.position(1)+j<=ENVIRONMENT.size) && (fish.position(2)+i>0))
+             lowerLeft = lowerLeft + dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(3)=1;
           end
       end
@@ -65,10 +59,8 @@ dens = ENVIRONMENT.space;
  % calculate weighting for lower right
  for i = perceptionReverse
       for j = perceptionReverse
-          if((fish.position(1)+j>ENVIRONMENT.size) || (fish.position(2)+i>ENVIRONMENT.size))
-             lowerRight = dens(fish.position(1),fish.position(2));
-          else
-             lowerRight = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
+          if((fish.position(1)+j<=ENVIRONMENT.size) && (fish.position(2)+i<=ENVIRONMENT.size))
+             lowerRight = lowerRight + dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(4)=1;
           end
       end
@@ -76,27 +68,19 @@ dens = ENVIRONMENT.space;
 
 %calculates weighting for up, down, left, right 
  for i = perception
-     if((fish.position(2)+i>ENVIRONMENT.size))
-         right = right + dens(fish.position(1), fish.position(2));
-     else
+     if((fish.position(2)+i<=ENVIRONMENT.size))
          right = right + dens(fish.position(1), fish.position(2)+i)./abs(i);
          changes(5)=1;
      end
-     if((fish.position(2)-i<=0))
-         left = left + dens(fish.position(1), fish.position(2));
-     else
+     if((fish.position(2)-i>0))
          left = left + dens(fish.position(1), fish.position(2)-i)./abs(i);   
          changes(6)=1;
      end
-     if((fish.position(1)-i<=0))
-         up = up + dens(fish.position(1), fish.position(2));
-     else
+     if((fish.position(1)-i>0))
          up = up + dens(fish.position(1)-i, fish.position(2))./abs(i);    
          changes(7)=1;
      end
-     if((fish.position(1)+i>ENVIRONMENT.size))
-         down = down + dens(fish.position(1), fish.position(2));
-     else
+     if((fish.position(1)+i<=ENVIRONMENT.size))
          down = down + dens(fish.position(1)+i, fish.position(2))./abs(i);  
          changes(8)=1;
      end
