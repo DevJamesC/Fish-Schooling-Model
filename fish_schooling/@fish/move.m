@@ -1,9 +1,9 @@
 function [updatedFish] = move(fish)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+% This function is used to update a fish's position 
 
 global ENVIRONMENT 
 
+%variables for weight values
 upperLeft=0;
 upperRight=0;
 left=0;
@@ -30,7 +30,7 @@ dens = ENVIRONMENT.space;
          % if not then go ahead and calculate weight of
          % the positions in that direction 
          if (((fish.position(1)+j<=0) || fish.position(2)+i<=0))
-             upperLeft = dens(fish.position(1), fish.position(2))./max(abs(i), abs(j));
+             upperLeft = dens(fish.position(1), fish.position(2));
          else      
              upperLeft = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(1)=1;
@@ -83,21 +83,21 @@ dens = ENVIRONMENT.space;
          changes(5)=1;
      end
      if((fish.position(2)-i<=0))
-         left = dens(fish.position(1), fish.position(2));
+         left = left + dens(fish.position(1), fish.position(2));
      else
-         left = dens(fish.position(1), fish.position(2)-i)./abs(i);   
+         left = left + dens(fish.position(1), fish.position(2)-i)./abs(i);   
          changes(6)=1;
      end
-     if((fish.position(1)-j<=0))
-         up = dens(fish.position(1), fish.position(2));
+     if((fish.position(1)-i<=0))
+         up = up + dens(fish.position(1), fish.position(2));
      else
-         up = dens(fish.position(1)-j, fish.position(2))./abs(j);    
+         up = up + dens(fish.position(1)-i, fish.position(2))./abs(i);    
          changes(7)=1;
      end
-     if((fish.position(1)+j>ENVIRONMENT.size))
-         down = dens(fish.position(1), fish.position(2));
+     if((fish.position(1)+i>ENVIRONMENT.size))
+         down = down + dens(fish.position(1), fish.position(2));
      else
-         down = dens(fish.position(1)+j, fish.position(2))./abs(j);  
+         down = down + dens(fish.position(1)+i, fish.position(2))./abs(i);  
          changes(8)=1;
      end
  end 
@@ -129,7 +129,7 @@ row = fish.position(1);
 col = fish.position(2);
 
 % check if that weight was an edge case, if so then fish remains in current
-% position 
+% position, if not then densities are adjusted accordingly 
 switch true
     case (weight == upperLeft)
         if(changes(1)==1) && (dens(row-1,col-1)<3)
