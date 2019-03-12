@@ -38,9 +38,9 @@ for n_it=1:nsteps
     for i=1:length(agents)
     	agents{i}=move(agents{i});     %the function which calls the rules
     end
+    disp(ENVIRONMENT.space);
         %plot_results(agent,nsteps,fmode,outImages); %updates results figures and structures
 end
-disp(ENVIRONMENT.space);
 clear global
 end
 
