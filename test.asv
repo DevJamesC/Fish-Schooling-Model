@@ -14,17 +14,18 @@ L = zeros(3, 3);
 disp(M)
 direction = 0;
 b = [[-2, -1], [2, 1]]
+t = 0
+s = 0
 for t = [0, 1]
-    for s = [0, 1]
-      for i = b[t]
-          for j = b[s]
-              disp(M(3+j, 3+i));
-              direction = direction + M(3 + j, 3 + i)./max(abs(i), abs(j));
-          end
+  for i = b[t]
+      for j = b[s]
+          disp(M(3+j, 3+i));
+          direction = direction + M(3 + j, 3 + i)./max(abs(i), abs(j));
       end
-    end
+  end
+  s = s + 1
 end
- 
+ disp(direction)
  
 end
 
