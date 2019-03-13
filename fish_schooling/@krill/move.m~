@@ -1,4 +1,4 @@
-function [updatedHerring] = move(herring)
+function [updatedFish] = move(fish)
 % This function is used to update a fish's position 
 
 global ENVIRONMENT 
@@ -16,11 +16,11 @@ changes=[0,0,0,0,0,0,0,0];
 
 % vectors basedon perception e.g. fish.perception = 3 is 
 % [1,2,3]
-perception = 1:1:(herring.perception);
+perception = 1:1:(fish.perception);
 perceptionReverse = sort(perception,'descend');
 
 % environment densities
-dens = ENVIRONMENT.herring;
+dens = ENVIRONMENT.space;
 
 %calculate weighting for upper left
  for i = perceptionReverse*-1
@@ -29,8 +29,8 @@ dens = ENVIRONMENT.herring;
          % calculated off current position,
          % if not then go ahead and calculate weight of
          % the positions in that direction 
-         if (((herring.position(1)+j>0) && herring.position(2)+i>0))   
-             upperLeft = upperLeft + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+         if (((fish.position(1)+j>0) && fish.position(2)+i>0))   
+             upperLeft = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(1)=1;
          end
      end
@@ -39,8 +39,8 @@ dens = ENVIRONMENT.herring;
 % calculate weighting for upper right
  for i = perceptionReverse
      for j = perceptionReverse*-1
-         if ((herring.position(1)+j>0) && (herring.position(2)+i<ENVIRONMENT.size))
-             upperRight = upperRight + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+         if ((fish.position(1)+j>0) && (fish.position(2)+i<ENVIRONMENT.size))
+             upperRight = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(2)=1;
          end
      end
@@ -49,8 +49,8 @@ dens = ENVIRONMENT.herring;
  %calculate weighting for lower left
  for i = perceptionReverse*-1
       for j = perceptionReverse
-          if((herring.position(1)+j<=ENVIRONMENT.size) && (herring.position(2)+i>0))
-             lowerLeft = lowerLeft + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+          if((fish.position(1)+j<=ENVIRONMENT.size) && (fish.position(2)+i>0))
+             lowerLeft = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(3)=1;
           end
       end
@@ -59,8 +59,8 @@ dens = ENVIRONMENT.herring;
  % calculate weighting for lower right
  for i = perceptionReverse
       for j = perceptionReverse
-          if((herring.position(1)+j<=ENVIRONMENT.size) && (herring.position(2)+i<=ENVIRONMENT.size))
-             lowerRight = lowerRight + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+          if((fish.position(1)+j<=ENVIRONMENT.size) && (fish.position(2)+i<=ENVIRONMENT.size))
+             lowerRight = dens(fish.position(1) + j, fish.position(2) + i)./max(abs(i), abs(j));
              changes(4)=1;
           end
       end
@@ -68,20 +68,22 @@ dens = ENVIRONMENT.herring;
 
 %calculates weighting for up, down, left, right 
  for i = perception
-     if((herring.position(2)+i<=ENVIRONMENT.size))
-         right = right + dens(herring.position(1), herring.position(2)+i)./abs(i);
+     if((fish.position(2)+i<=ENVIRONMENT.size))
+         right = right + dens(fish.position(1), fish.position(2)+i)./abs(i);
          changes(5)=1;
      end
-     if((herring.position(2)-i>0))
-         left = left + dens(herring.position(1), herring.position(2)-i)./abs(i);   
+     if((fish.position(2)-i>0))
+         left = left + dens(fish.position(1), fish.position(2)-i)./abs(i);   
          changes(6)=1;
      end
-     if((herring.position(1)-i>0))
-         up = up + dens(herring.position(1)-i, herring.position(2))./abs(i);    
+     if((fish.position(1)-i>0))
+         up = up + dens(fish.position(1)-i, fish.position(2))./abs(i);    
          changes(7)=1;
      end
-     if((herring.position(1)+i<=ENVIRONMENT.size))
-         down = down + dens(herring.position(1)+i, herring.position(2))./abs(i);  
+     if((fish.position(1)+i<=ENVIRONMENT.size))
+         down = down + dens(fish.position(1), fish.position(2));
+     else
+         down = down + dens(fish.position(1)+i, fish.position(2))./abs(i);  
          changes(8)=1;
      end
  end 
@@ -109,8 +111,8 @@ switch true
 
 end
 
-row = herring.position(1);
-col = herring.position(2);
+row = fish.position(1);
+col = fish.position(2);
 
 % check if that weight was an edge case, if so then fish remains in current
 % position, if not then densities are adjusted accordingly 
@@ -190,10 +192,10 @@ switch true
          end
 end
 % change environment 
-ENVIRONMENT.herring = dens;
+ENVIRONMENT.space = dens;
 % new fish position 
-herring.position = pos;
+fish.position = pos;
 %return an updated fish
-updatedHerring = herring();
+updatedFish = fish();
 end
 

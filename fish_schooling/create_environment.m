@@ -6,8 +6,8 @@ global ENVIRONMENT PARAM
 ENVIRONMENT.shape='square';
 ENVIRONMENT.units='metres_cubed';
 ENVIRONMENT.size=size;
-ENVIRONMENT.space=zeros(size, size);
-ENVIRONMENT.density=PARAM.MAX_DENSITY;
+ENVIRONMENT.herring=zeros(size, size);
+ENVIRONMENT.krill=zeros(size,size);
 
 end
 
