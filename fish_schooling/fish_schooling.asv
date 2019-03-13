@@ -17,14 +17,12 @@ close all
 %MODEL INITIALISATION
 initialise_params;                      %sets the parameters for this simulation
 create_environment(size);           %creates environment data structure, given an environment size
-create_control();
 %random_selection(1);                %randomises random number sequence (NOT agent order). If input=0, then simulation should be identical to previous for same initial values
 [agents]=create_agents(nf,nk);       %creates nf fish agents and places them in a cell array called 'agents'
-create_messages(nf,nk,agents);
 initialise_results(nf,nk,nsteps);   %initilaises structure for storing results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-global N_IT ENVIRONMENT PARAM 
+global N_IT ENVIRONMENT PARAM CONTROL_DATA
 % definition of global variables
 % N_IT - current iteration number 
 % PARAM - contains the max density 
