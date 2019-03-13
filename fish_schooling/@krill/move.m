@@ -39,7 +39,7 @@ dens = ENVIRONMENT.krill;
 % calculate weighting for upper right
  for i = perceptionReverse
      for j = perceptionReverse*-1
-         if ((krill.position(1)+j>0) && (krill.position(2)+i<ENVIRONMENT.size))
+         if ((krill.position(1)+j>0) && (krill.position(2)+i<=ENVIRONMENT.size))
              upperRight = upperRight + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
              changes(2)=1;
          end

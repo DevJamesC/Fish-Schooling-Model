@@ -23,7 +23,7 @@ function plot_results(agent,nsteps,fmode,outImages)
     %write results to the screen
     nh=IT_STATS.tot_r(1);
     nk=IT_STATS.tot_f(1);
-    disp(strcat('Iteration = ',num2str(N_IT)))
+    %disp(strcat('Iteration = ',num2str(N_IT)))
 %     disp(strcat('No. new rabbits = ',num2str(IT_STATS.div_r(N_IT+1))))
 %     disp(strcat('No. new foxes = ',num2str(IT_STATS.div_f(N_IT+1))))
 %     disp(strcat('No. agents migrating = ',num2str(IT_STATS.mig(N_IT+1))))
@@ -133,11 +133,11 @@ function plot_results(agent,nsteps,fmode,outImages)
         axis off
         drawnow 
         if outImages==true  %this outputs images if outImage parameter set to true!!
-            if fmode==true; %this warning is to show not all iterations are being output if fmode=true!
+            if fmode==true %this warning is to show not all iterations are being output if fmode=true!
                     disp('WARNING*** fastmode set - To output all Images for a movie, set fmode to false(fast mode turned off) ');
             end 
-            filenamejpg=[sprintf('%04d',N_IT)];
-            eval(['print -djpeg90 agent_plot_' filenamejpg]); %print new jpeg to create movie later
+            %filenamejpg=[sprintf('%04d',N_IT)];
+            %eval(['print -djpeg90 agent_plot_' filenamejpg]); %print new jpeg to create movie later
         end
     end
 end

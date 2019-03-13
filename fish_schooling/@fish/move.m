@@ -39,7 +39,7 @@ dens = ENVIRONMENT.herring;
 % calculate weighting for upper right
  for i = perceptionReverse
      for j = perceptionReverse*-1
-         if ((herring.position(1)+j>0) && (herring.position(2)+i<ENVIRONMENT.size))
+         if ((herring.position(1)+j>0) && (herring.position(2)+i<=ENVIRONMENT.size))
              upperRight = upperRight + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              changes(2)=1;
          end

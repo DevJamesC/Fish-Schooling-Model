@@ -32,10 +32,10 @@ global N_IT ENVIRONMENT PARAM
 
 %MODEL EXECUTION
 %execute for number of iterations
-disp(ENVIRONMENT.krill);
+N_IT=0;
+plot_results(agents,nsteps,true,true); %updates results figures and structures
 for n_it=1:nsteps
     N_IT=n_it;
-     plot_results(agents,nsteps,false,true); %updates results figures and structures
     % update agents for number of agents 
     for i=1:length(agents)
     	agents{i}=move(agents{i});     %the function which calls the rules
@@ -43,9 +43,9 @@ for n_it=1:nsteps
     
        
 end
-disp(ENVIRONMENT.krill);
-disp(ENVIRONMENT.herring);
-disp(length(agents));
+plot_results(agents,nsteps,true,true); %updates results figures and structures
+%disp(ENVIRONMENT.herring);
+
 clear global
 end
 
