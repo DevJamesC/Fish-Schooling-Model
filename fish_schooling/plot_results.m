@@ -21,8 +21,8 @@ function plot_results(agent,nsteps,fmode,outImages)
     %broadcast to each other
 
     %write results to the screen
-    nr=IT_STATS.tot_r;
-    nf=IT_STATS.tot_f;
+    nh=IT_STATS.tot_r(1);
+    nk=IT_STATS.tot_f(1);
     disp(strcat('Iteration = ',num2str(N_IT)))
 %     disp(strcat('No. new rabbits = ',num2str(IT_STATS.div_r(N_IT+1))))
 %     disp(strcat('No. new foxes = ',num2str(IT_STATS.div_f(N_IT+1))))
@@ -42,7 +42,7 @@ function plot_results(agent,nsteps,fmode,outImages)
         col{2}='b-';
 
 %         tot_food=IT_STATS.tfood;       %total food remaining
-          n=nr(N_IT+1)+nf(N_IT+1);             %current agent number
+%          n=nf(N_IT+1);             %current agent number
 %         f2=figure(2);
 %         set(f2,'Units','Normalized');
 %         set(f2,'Position',[0.5 0.5 0.45 0.4]);
@@ -112,7 +112,7 @@ function plot_results(agent,nsteps,fmode,outImages)
         while CONTROL_DATA.pause==true    % pause/resume functionality - allows pan and zoom during pause...
             pan on
             axis off
-            title(['Iteration no.= ' num2str(N_IT) '.  No. agents = ' num2str(n)]);
+            title(['Iteration no.= ' num2str(N_IT) '.  No. krill = ' num2str(nk)]);
             text(-2.6, 7.7, 'PAUSED', 'Color', 'r');
             drawnow
             uicontrol('Style','pushbutton',...
@@ -129,7 +129,7 @@ function plot_results(agent,nsteps,fmode,outImages)
                       'Position',[20 20 60 20], ...
                       'Callback', 'global ENV_DATA; ENV_DATA.pause=false; clear ENV_DATA;'); 
         end
-        title(['Iteration no.= ' num2str(N_IT) '.  No. agents = ' num2str(n)]);
+        title(['Iteration no.= ' num2str(N_IT) '  No. Herring= ' num2str(nh) '  No. Krill = ' num2str(nk)]);
         axis off
         drawnow 
         if outImages==true  %this outputs images if outImage parameter set to true!!
