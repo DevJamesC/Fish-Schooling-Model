@@ -22,7 +22,7 @@ function plot_results(agent,nsteps,fmode,outImages)
 
     %write results to the screen
     nh=IT_STATS.tot_f(1);
-    nk=IT_STATS.tot_r(1);
+    nk=IT_STATS.tot_r(N_IT+1);
     %disp(strcat('Iteration = ',num2str(N_IT)))
 %     disp(strcat('No. new rabbits = ',num2str(IT_STATS.div_r(N_IT+1))))
 %     disp(strcat('No. new foxes = ',num2str(IT_STATS.div_f(N_IT+1))))

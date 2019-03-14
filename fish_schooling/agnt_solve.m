@@ -9,6 +9,7 @@ function [nagent,nn]=agnt_solve(agent)
 %nn - total number of live agents at end of update
 
 %Created by Dawn Walker 3/4/08 
+global MESSAGES
 
 n=length(agent);    %current no. of agents
 n_new=0;    %no. new agents
@@ -24,6 +25,7 @@ for cn=1:n
      end
      if isa(curr,'krill')
          curr=move(curr);
+         MESSAGES.pos(cn,:)=curr.position;
      end
      agent{cn}=curr;                          %up date cell array with modified agent data structure
 end

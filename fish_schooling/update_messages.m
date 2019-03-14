@@ -42,6 +42,7 @@ for cn=1:temp_n
         MESSAGES.pos(cn,:)=pos;                    
          if isa(agent{cn},'krill')
              MESSAGES.atype(cn)=1;
+             IT_STATS.tot_r(N_IT+1)=IT_STATS.tot_r(N_IT+1)+1;
          elseif isa(agent{cn},'fish')
              MESSAGES.atype(cn)=2;
          end
@@ -50,11 +51,6 @@ for cn=1:temp_n
     else                                %agent has died
         MESSAGES.atype(cn)=0;           %set type to dead
         MESSAGES.dead(cn)=0;            %clear death message
-        if(N_IT>1)
-            IT_STATS.tot_r(N_IT)=IT_STATS.tot_r(N_IT-1)-1;
-        else
-            IT_STATS.tot_r(N_IT+1)=IT_STATS.tot_r(N_IT+1)-1;
-        end
         %pos=get(agent{cn},'position');
     end
 end

@@ -42,13 +42,13 @@ for n_it=1:nsteps
     [agents,n]=agnt_solve(agents);     %the function which calls the rules
 end
 plot_results(agents,nsteps,true,true); %updates results figures and structures
-disp(ENVIRONMENT.krill);
-disp(ENVIRONMENT.herring);
+count=0;
 typ=MESSAGES.atype;                                         %extract types of all agents
 for cn=1:length(agents)
     if MESSAGES.atype(cn)==0
         coords = MESSAGES.pos(cn,:);
         ENVIRONMENT.krill(coords(1),coords(2))=ENVIRONMENT.krill(coords(1),coords(2))-1;
+        count = count +1;
     end
 end
 plot_results(agents,nsteps,true,true); %updates results figures and structures

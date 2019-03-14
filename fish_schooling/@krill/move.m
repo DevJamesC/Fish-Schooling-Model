@@ -1,7 +1,7 @@
 function [updatedKrill] = move(krill)
 % This function is used to update a fish's position 
 
-global ENVIRONMENT PARAM 
+global ENVIRONMENT PARAM MESSAGES
 
 %variables for weight values
 upperLeft=0;
