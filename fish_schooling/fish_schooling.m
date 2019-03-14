@@ -24,7 +24,7 @@ create_messages(nf,nk,agents);
 initialise_results(nf,nk,nsteps);   %initilaises structure for storing results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-global N_IT ENVIRONMENT PARAM 
+global N_IT ENVIRONMENT PARAM MESSAGES IT_STATS
 % definition of global variables
 % N_IT - current iteration number 
 % PARAM - contains the max density 
@@ -34,18 +34,29 @@ global N_IT ENVIRONMENT PARAM
 %execute for number of iterations
 N_IT=0;
 plot_results(agents,nsteps,true,true); %updates results figures and structures
+disp(ENVIRONMENT.krill);
+disp(ENVIRONMENT.herring);
 for n_it=1:nsteps
     N_IT=n_it;
     % update agents for number of agents 
-    for i=1:length(agents)
-    	agents{i}=move(agents{i});     %the function which calls the rules
-    end
-    
-       
+    [agents,n]=agnt_solve(agents);     %the function which calls the rules
 end
 plot_results(agents,nsteps,true,true); %updates results figures and structures
-%disp(ENVIRONMENT.herring);
-
+disp(ENVIRONMENT.krill);
+disp(ENVIRONMENT.herring);
+typ=MESSAGES.atype;                                         %extract types of all agents
+for cn=1:length(agents)
+    if MESSAGES.atype(cn)==0
+        coords = MESSAGES.pos(cn,:);
+        ENVIRONMENT.krill(coords(1),coords(2))=ENVIRONMENT.krill(coords(1),coords(2))-1;
+    end
+end
+plot_results(agents,nsteps,true,true); %updates results figures and structures
+disp(ENVIRONMENT.krill);
+disp(ENVIRONMENT.herring);
+disp(length(find(typ==0)));    
+disp(length(find(typ==1)));         
+disp(length(find(typ==2)));         
 clear global
 end
 

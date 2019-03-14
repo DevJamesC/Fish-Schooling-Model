@@ -1,4 +1,4 @@
-function initialise_results(nr,nf,nsteps)
+function initialise_results(nf,nr,nsteps)
 
  global  IT_STATS ENV_DATA CONTROL_DATA 
  

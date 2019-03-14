@@ -14,12 +14,12 @@ function create_messages(nr,nf,agent)
  global MESSAGES
  
  for an=1:length(agent)
-     if isa(agent{an},'rabbit')
+     if isa(agent{an},'krill')
         MESSAGES.atype(an)=1;
-        MESSAGES.pos(an,:)=get(agent{an},'pos');
-     elseif isa(agent{an},'fox')
+        MESSAGES.pos(an,:)=get(agent{an},'position');
+     elseif isa(agent{an},'fish')
         MESSAGES.atype(an)=2;
-        MESSAGES.pos(an,:)=get(agent{an},'pos');
+        MESSAGES.pos(an,:)=get(agent{an},'position');
      else
         MESSAGES.atype(an)=0; 
         MESSAGES.pos(an,:)=[-1 -1];

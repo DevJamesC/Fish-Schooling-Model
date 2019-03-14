@@ -21,8 +21,8 @@ function plot_results(agent,nsteps,fmode,outImages)
     %broadcast to each other
 
     %write results to the screen
-    nh=IT_STATS.tot_r(1);
-    nk=IT_STATS.tot_f(1);
+    nh=IT_STATS.tot_f(1);
+    nk=IT_STATS.tot_r(1);
     %disp(strcat('Iteration = ',num2str(N_IT)))
 %     disp(strcat('No. new rabbits = ',num2str(IT_STATS.div_r(N_IT+1))))
 %     disp(strcat('No. new foxes = ',num2str(IT_STATS.div_f(N_IT+1))))
@@ -80,17 +80,16 @@ function plot_results(agent,nsteps,fmode,outImages)
         set(hs,'SpecularExponent',1);       %sets up lighting
         set(hs,'SpecularStrength',0.1);
         hold on
-
         for cn=1:length(agent)                          %cycle through each agent in turn
             %if typ(cn)>0                                %only plot live agents
             pos=get(agent{cn},'position');               %extract current position    
             if isa(agent{cn},'fish')              %choose plot colour depending on agent type
                 ro=plot(pos(1),pos(2),'r.'); %USE THIS TO CHANGE HERRING COLOUR -JC
                 set(ro,'MarkerSize',30);
-            else   
+            elseif isa(agent{cn},'krill') 
                 fo=plot(pos(1),pos(2),'b*'); %USE THIS TO CHANGE KRILL COLOUR -JC
                 
-                
+            
             end
         end
 
