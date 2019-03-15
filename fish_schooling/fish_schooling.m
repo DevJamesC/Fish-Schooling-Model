@@ -1,4 +1,4 @@
-function fish_schooling(size, nf,nk, nsteps)
+function fish_schooling(size, nf,nk, nsteps,fmode)
 %FISH_SCHOOLING Summary of this function goes here
 %   Detailed explanation goes here
 % FISH_SCHOOLING agent-based herring schooling model
@@ -18,7 +18,7 @@ close all
 initialise_params;                      %sets the parameters for this simulation
 create_environment(size);           %creates environment data structure, given an environment size
 create_control();
-%random_selection(1);                %randomises random number sequence (NOT agent order). If input=0, then simulation should be identical to previous for same initial values
+random_selection(1);                %randomises random number sequence (NOT agent order). If input=0, then simulation should be identical to previous for same initial values
 [agents]=create_agents(nf,nk);       %creates nf fish agents and places them in a cell array called 'agents'
 create_messages(nf,nk,agents);
 initialise_results(nf,nk,nsteps);   %initilaises structure for storing results
@@ -40,7 +40,7 @@ for n_it=1:nsteps
     N_IT=n_it;
     % update agents for number of agents 
     [agents,n]=agnt_solve(agents);     %the function which calls the rules
-    plot_results(agents,nsteps,true,true); %updates results figures and structures
+%     plot_results(agents,nsteps,true,true); %updates results figures and structures
 end
 plot_results(agents,nsteps,true,true); %updates results figures and structures
 count=0;
