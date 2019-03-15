@@ -21,6 +21,7 @@ perceptionReverse = sort(perception,'descend');
 
 % environment densities
 dens = ENVIRONMENT.herring;
+denk = ENVIRONMENT.krill;
 
 %calculate weighting for upper left
  for i = perceptionReverse*-1
@@ -31,6 +32,7 @@ dens = ENVIRONMENT.herring;
          % the positions in that direction 
          if (((herring.position(1)+j>0) && herring.position(2)+i>0))   
              upperLeft = upperLeft + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             upperLeft = upperLeft + denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              changes(1)=1;
          end
      end
@@ -41,6 +43,7 @@ dens = ENVIRONMENT.herring;
      for j = perceptionReverse*-1
          if ((herring.position(1)+j>0) && (herring.position(2)+i<=ENVIRONMENT.size))
              upperRight = upperRight + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             upperRight = upperRight + denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              changes(2)=1;
          end
      end
@@ -51,6 +54,8 @@ dens = ENVIRONMENT.herring;
       for j = perceptionReverse
           if((herring.position(1)+j<=ENVIRONMENT.size) && (herring.position(2)+i>0))
              lowerLeft = lowerLeft + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             lowerLeft = lowerLeft + denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             
              changes(3)=1;
           end
       end
@@ -61,6 +66,7 @@ dens = ENVIRONMENT.herring;
       for j = perceptionReverse
           if((herring.position(1)+j<=ENVIRONMENT.size) && (herring.position(2)+i<=ENVIRONMENT.size))
              lowerRight = lowerRight + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             lowerRight = lowerRight + denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              changes(4)=1;
           end
       end
@@ -70,18 +76,23 @@ dens = ENVIRONMENT.herring;
  for i = perception
      if((herring.position(2)+i<=ENVIRONMENT.size))
          right = right + dens(herring.position(1), herring.position(2)+i)./abs(i);
+         right = right + denk(herring.position(1), herring.position(2)+i)./abs(i);
          changes(5)=1;
      end
      if((herring.position(2)-i>0))
-         left = left + dens(herring.position(1), herring.position(2)-i)./abs(i);   
+         left = left + dens(herring.position(1), herring.position(2)-i)./abs(i);
+         left = left + denk(herring.position(1), herring.position(2)-i)./abs(i);
          changes(6)=1;
      end
      if((herring.position(1)-i>0))
-         up = up + dens(herring.position(1)-i, herring.position(2))./abs(i);    
+         up = up + dens(herring.position(1)-i, herring.position(2))./abs(i);
+         up = up + denk(herring.position(1)-i, herring.position(2))./abs(i);
+         
          changes(7)=1;
      end
      if((herring.position(1)+i<=ENVIRONMENT.size))
          down = down + dens(herring.position(1)+i, herring.position(2))./abs(i);  
+         down = down + denk(herring.position(1)+i, herring.position(2))./abs(i);  
          changes(8)=1;
      end
  end 
@@ -89,8 +100,6 @@ dens = ENVIRONMENT.herring;
 % sort weights from highest to lowest 
 Q = sort([up,down,left,right,upperLeft,lowerLeft,upperRight,lowerRight],'descend');
 Q = Q(1:5);
-%disp("Q");
-%disp(Q);
 
 i = rand;
 
@@ -115,6 +124,27 @@ col = herring.position(2);
 % check if that weight was an edge case, if so then fish remains in current
 % position, if not then densities are adjusted accordingly 
 switch true
+    case(weight==0)
+            pos = [row,col];
+    case(weight == down)
+        if(changes(8)==1) && (dens(row+1,col)<3)           
+           dens(row+1,col)=dens(row+1,col)+1;
+           dens(row,col)= dens(row,col)-1;
+
+           pos = [row+1,col];
+        else
+           pos = [row,col];
+
+        end
+    case(weight == right)
+        if(changes(5)==1) && (dens(row,col+1)<3)
+           dens(row,col+1)=dens(row,col+1)+1;
+           dens(row,col)= dens(row,col)-1;
+
+           pos = [row,col+1];
+        else
+           pos = [row,col];
+        end
     case (weight == upperLeft)
         if(changes(1)==1) && (dens(row-1,col-1)<3)
             dens(row-1,col-1)=dens(row-1,col-1)+1;
@@ -132,16 +162,7 @@ switch true
         else
             pos = [row,col];
         end
-     case(weight == right)
-         if(changes(5)==1) && (dens(row,col+1)<3)
-            dens(row,col+1)=dens(row,col+1)+1;
-            dens(row,col)= dens(row,col)-1;
-
-            pos = [row,col+1];
-         else
-            pos = [row,col];
-         end
-     case(weight == left) 
+     case(weight == left)
          if(changes(6)==1) && (dens(row,col-1)<3)
             dens(row,col-1)=dens(row,col-1)+1;
             dens(row,col)= dens(row,col)-1;
@@ -155,16 +176,6 @@ switch true
             dens(row-1,col)=dens(row-1,col)+1;
             dens(row,col)= dens(row,col)-1;
             pos = [row-1,col];
-         else
-            pos = [row,col];
-
-         end
-     case(weight == down)
-         if(changes(8)==1) && (dens(row+1,col)<3)           
-            dens(row+1,col)=dens(row+1,col)+1;
-            dens(row,col)= dens(row,col)-1;
-
-            pos = [row+1,col];
          else
             pos = [row,col];
 
@@ -187,7 +198,7 @@ switch true
             pos = [row+1,col+1];
          else
             pos = [row,col];
-         end
+         end            
 end
 % change environment 
 ENVIRONMENT.herring = dens;

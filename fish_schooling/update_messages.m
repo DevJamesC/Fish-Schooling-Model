@@ -51,8 +51,5 @@ for cn=1:temp_n
     else                                %agent has died
         MESSAGES.atype(cn)=0;           %set type to dead
         MESSAGES.dead(cn)=0;            %clear death message
-        %pos=get(agent{cn},'position');
     end
 end
-% IT_STATS.tot(N_IT+1)=nn;                %update total agent number
-% IT_STATS.tfood(N_IT+1)=sum(sum(ENV_DATA.food));   %total food remaining

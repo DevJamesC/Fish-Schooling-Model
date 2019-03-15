@@ -40,6 +40,7 @@ for n_it=1:nsteps
     N_IT=n_it;
     % update agents for number of agents 
     [agents,n]=agnt_solve(agents);     %the function which calls the rules
+    plot_results(agents,nsteps,true,true); %updates results figures and structures
 end
 plot_results(agents,nsteps,true,true); %updates results figures and structures
 count=0;
