@@ -39,7 +39,7 @@ if d<=spd&length(nrst)>0    %if there is at least one  rabbit within the search 
         s=round(rand*(length(nrst)-1))+1;
         nrst=nrst(s);
     end
-    pk=1-(d/spd);                       %probability that fox will kill krill is ratio of speed to distance
+    pk=1-(d/spd);                       %probability that herring will kill krill is ratio of speed to distance
     if pk>rand
         nx=MESSAGES.pos(nrst,1);    %extract exact location of this krill
         ny=MESSAGES.pos(nrst,2);

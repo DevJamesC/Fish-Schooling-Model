@@ -34,7 +34,7 @@ s=ENVIRONMENT.size;
             pos = [round((s/2-1)*rand+1)+(s/2),round(((s-1)*rand+1))]; 
             %will be a 1x2 matrix like [1,2]
         end
-        agents{k} = krill(pos,2);
+        agents{k} = krill(pos,3);
         % add the krill to the environment space
         ENVIRONMENT.krill(pos(1, 1), pos(1, 2)) = ENVIRONMENT.krill(pos(1, 1), pos(1, 2)) + 1;
         %like array value calling another array value

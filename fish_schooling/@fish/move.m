@@ -12,6 +12,7 @@ changes=[0,0,0,0,0,0,0,0];
 % [1,2,3]
 perception = 1:1:(herring.perception);
 perceptionReverse = sort(perception,'descend');
+m=2;
 
 % environment densities
 dens = ENVIRONMENT.herring;
@@ -26,7 +27,7 @@ denk = ENVIRONMENT.krill;
          % the positions in that direction 
          if (((herring.position(1)+j>0) && herring.position(2)+i>0))   
              d.upperLeft = d.upperLeft + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
-             d.upperLeft = d.upperLeft + denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             d.upperLeft = d.upperLeft + m*denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              changes(1)=1;
          end
      end
@@ -37,7 +38,7 @@ denk = ENVIRONMENT.krill;
      for j = perceptionReverse*-1
          if ((herring.position(1)+j>0) && (herring.position(2)+i<=ENVIRONMENT.size))
              d.upperRight = d.upperRight + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
-             d.upperRight = d.upperRight + denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             d.upperRight = d.upperRight + m*denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              changes(2)=1;
          end
      end
@@ -48,7 +49,7 @@ denk = ENVIRONMENT.krill;
       for j = perceptionReverse
           if((herring.position(1)+j<=ENVIRONMENT.size) && (herring.position(2)+i>0))
              d.lowerLeft = d.lowerLeft + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
-             d.lowerLeft = d.lowerLeft + denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             d.lowerLeft = d.lowerLeft + m*denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              
              changes(3)=1;
           end
@@ -60,7 +61,7 @@ denk = ENVIRONMENT.krill;
       for j = perceptionReverse
           if((herring.position(1)+j<=ENVIRONMENT.size) && (herring.position(2)+i<=ENVIRONMENT.size))
              d.lowerRight = d.lowerRight + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
-             d.lowerRight = d.lowerRight + denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
+             d.lowerRight = d.lowerRight + m*denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              changes(4)=1;
           end
       end
@@ -70,23 +71,23 @@ denk = ENVIRONMENT.krill;
  for i = perception
      if((herring.position(2)+i<=ENVIRONMENT.size))
          d.right = d.right + dens(herring.position(1), herring.position(2)+i)./abs(i);
-         d.right = d.right + denk(herring.position(1), herring.position(2)+i)./abs(i);
+         d.right = d.right + m*denk(herring.position(1), herring.position(2)+i)./abs(i);
          changes(5)=1;
      end
      if((herring.position(2)-i>0))
          d.left = d.left + dens(herring.position(1), herring.position(2)-i)./abs(i);
-         d.left = d.left + denk(herring.position(1), herring.position(2)-i)./abs(i);
+         d.left = d.left + m*denk(herring.position(1), herring.position(2)-i)./abs(i);
          changes(6)=1;
      end
      if((herring.position(1)-i>0))
          d.up = d.up + dens(herring.position(1)-i, herring.position(2))./abs(i);
-         d.up = d.up + denk(herring.position(1)-i, herring.position(2))./abs(i);
+         d.up = d.up + m*denk(herring.position(1)-i, herring.position(2))./abs(i);
          
          changes(7)=1;
      end
      if((herring.position(1)+i<=ENVIRONMENT.size))
          d.down = d.down + dens(herring.position(1)+i, herring.position(2))./abs(i);  
-         d.down = d.down + denk(herring.position(1)+i, herring.position(2))./abs(i);  
+         d.down = d.down + m*denk(herring.position(1)+i, herring.position(2))./abs(i);  
          changes(8)=1;
      end
  end 
