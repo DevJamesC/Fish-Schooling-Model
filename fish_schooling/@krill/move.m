@@ -3,15 +3,9 @@ function [updatedKrill] = move(krill)
 
 global ENVIRONMENT PARAM MESSAGES
 
-%variables for weight values
-upperLeft=0;
-upperRight=0;
-left=0;
-right=0;
-up=0;
-down=0;
-lowerLeft=0;
-lowerRight=0;
+% struct containing weights for all directions
+d=struct('up',0,'down',0,'left',0,'right',0,'upperLeft',0,...
+    'upperRight',0,'lowerLeft',0,'lowerRight',0);
 changes=[0,0,0,0,0,0,0,0];
 
 % vectors basedon perception e.g. fish.perception = 3 is 
@@ -32,8 +26,8 @@ denh = ENVIRONMENT.herring;
          % if not then go ahead and calculate weight of
          % the positions in that direction 
          if (((krill.position(1)+j>0) && krill.position(2)+i>0))   
-             upperLeft = upperLeft + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
-             upperLeft = upperLeft - m*dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
+             d.upperLeft = d.upperLeft + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
+             d.upperLeft = d.upperLeft - m*dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
              changes(1)=1;
          end
      end
@@ -43,8 +37,8 @@ denh = ENVIRONMENT.herring;
  for i = perceptionReverse
      for j = perceptionReverse*-1
          if ((krill.position(1)+j>0) && (krill.position(2)+i<=ENVIRONMENT.size))
-             upperRight = upperRight + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
-             upperRight = upperRight - m*denh(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
+             d.upperRight = d.upperRight + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
+             d.upperRight = d.upperRight - m*denh(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
              changes(2)=1;
          end
      end
@@ -54,8 +48,8 @@ denh = ENVIRONMENT.herring;
  for i = perceptionReverse*-1
       for j = perceptionReverse
           if((krill.position(1)+j<=ENVIRONMENT.size) && (krill.position(2)+i>0))
-             lowerLeft = lowerLeft + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
-             lowerLeft = lowerLeft - m*denh(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
+             d.lowerLeft = d.lowerLeft + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
+             d.lowerLeft = d.lowerLeft - m*denh(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
 
              changes(3)=1;
           end
@@ -66,8 +60,8 @@ denh = ENVIRONMENT.herring;
  for i = perceptionReverse
       for j = perceptionReverse
           if((krill.position(1)+j<=ENVIRONMENT.size) && (krill.position(2)+i<=ENVIRONMENT.size))
-             lowerRight = lowerRight + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
-             lowerRight = lowerRight - m*denh(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
+             d.lowerRight = d.lowerRight + dens(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
+             d.lowerRight = d.lowerRight - m*denh(krill.position(1) + j, krill.position(2) + i)./max(abs(i), abs(j));
              changes(4)=1;
           end
       end
@@ -76,36 +70,33 @@ denh = ENVIRONMENT.herring;
 %calculates weighting for up, down, left, right 
  for i = perception
      if((krill.position(2)+i<=ENVIRONMENT.size))
-         right = right + dens(krill.position(1), krill.position(2)+i)./abs(i);
-         right = right - m*denh(krill.position(1), krill.position(2)+i)./abs(i);
+         d.right = d.right + dens(krill.position(1), krill.position(2)+i)./abs(i);
+         d.right = d.right - m*denh(krill.position(1), krill.position(2)+i)./abs(i);
          changes(5)=1;
      end
      if((krill.position(2)-i>0))
-         left = left + dens(krill.position(1), krill.position(2)-i)./abs(i);
-         left = left - m*(denh(krill.position(1), krill.position(2)-i)./abs(i));
+         d.left = d.left + dens(krill.position(1), krill.position(2)-i)./abs(i);
+         d.left = d.left - m*(denh(krill.position(1), krill.position(2)-i)./abs(i));
          changes(6)=1;
      end
      if((krill.position(1)-i>0))
-         up = up + dens(krill.position(1)-i, krill.position(2))./abs(i);   
-         up = up - m*denh(krill.position(1)-i, krill.position(2))./abs(i); 
+         d.up = d.up + dens(krill.position(1)-i, krill.position(2))./abs(i);   
+         d.up = d.up - m*denh(krill.position(1)-i, krill.position(2))./abs(i); 
          changes(7)=1;
      end
      if((krill.position(1)+i<=ENVIRONMENT.size))
-         down = down + dens(krill.position(1)+i, krill.position(2))./abs(i); 
-         down = down - m*(denh(krill.position(1)+i, krill.position(2))./abs(i)); 
+         d.down = d.down + dens(krill.position(1)+i, krill.position(2))./abs(i); 
+         d.down = d.down - m*(denh(krill.position(1)+i, krill.position(2))./abs(i)); 
          changes(8)=1;
      end
  end 
 
 % sort weights from highest to lowest 
-Q = sort([up,down,left,right,upperLeft,lowerLeft,upperRight,lowerRight],'descend');
+Q = sort([d.up,d.down,d.left,d.right,d.upperLeft,d.lowerLeft,d.upperRight,d.lowerRight],'descend');
 Q =Q(1:5);
-%disp("Q");
-%disp(Q);
-
-i = rand;
 
 % choose a weight based on % chances
+i = rand;
 switch true
     case ((0<=i)&&(i<0.75))
         weight = Q(1);
@@ -117,27 +108,21 @@ switch true
         weight = Q(4);
     case ((0.97<=i)&&(i<=1.00))
         weight = Q(5);
-
 end
 
 row = krill.position(1);
 col = krill.position(2);
 
-% check if that weight was an edge case, if so then fish remains in current
-% position, if not then densities are adjusted accordingly 
-switch true
-    case(weight==0)
-        pos=[row,col];
-    case(weight == up)
+    function up
         if(changes(7)==1) && (dens(row-1,col)<PARAM.KRILL_DENSITY)  
            dens(row-1,col)=dens(row-1,col)+1;
            dens(row,col)= dens(row,col)-1;
            pos = [row-1,col];
         else
            pos = [row,col];
-
         end
-    case (weight == upperLeft)
+    end
+    function upperLeft
         if(changes(1)==1) && (dens(row-1,col-1)<PARAM.KRILL_DENSITY)
             dens(row-1,col-1)=dens(row-1,col-1)+1;
             dens(row,col)= dens(row,col)-1;
@@ -145,35 +130,9 @@ switch true
         else
             pos = [row,col];
         end
-    case(weight == upperRight)
-        if(changes(2)==1) && (dens(row-1,col+1)<PARAM.KRILL_DENSITY)
-            dens(row-1,col+1)=dens(row-1,col+1)+1;
-            dens(row,col)= dens(row,col)-1;
-
-            pos = [row-1,col+1];
-        else
-            pos = [row,col];
-        end
-     case(weight == right)
-         if(changes(5)==1) && (dens(row,col+1)<PARAM.KRILL_DENSITY)
-            dens(row,col+1)=dens(row,col+1)+1;
-            dens(row,col)= dens(row,col)-1;
-
-            pos = [row,col+1];
-         else
-            pos = [row,col];
-         end
-     case(weight == left) 
-         if(changes(6)==1) && (dens(row,col-1)<PARAM.KRILL_DENSITY)
-            dens(row,col-1)=dens(row,col-1)+1;
-            dens(row,col)= dens(row,col)-1;
-
-            pos = [row,col-1];
-         else
-            pos = [row,col];
-         end
-     case(weight == down)
-         if(changes(8)==1) && (dens(row+1,col)<PARAM.KRILL_DENSITY)           
+    end
+    function down
+        if(changes(8)==1) && (dens(row+1,col)<PARAM.KRILL_DENSITY)           
             dens(row+1,col)=dens(row+1,col)+1;
             dens(row,col)= dens(row,col)-1;
 
@@ -182,8 +141,29 @@ switch true
             pos = [row,col];
 
          end
-     case(weight == lowerLeft)
-         if(changes(3)==1)  && (dens(row+1,col-1)<PARAM.KRILL_DENSITY)
+    end
+    function left
+          if(changes(6)==1) && (dens(row,col-1)<PARAM.KRILL_DENSITY)
+            dens(row,col-1)=dens(row,col-1)+1;
+            dens(row,col)= dens(row,col)-1;
+
+            pos = [row,col-1];
+         else
+            pos = [row,col];
+          end
+    end
+    function right
+         if(changes(5)==1) && (dens(row,col+1)<PARAM.KRILL_DENSITY)
+            dens(row,col+1)=dens(row,col+1)+1;
+            dens(row,col)= dens(row,col)-1;
+
+            pos = [row,col+1];
+         else
+            pos = [row,col];
+         end
+    end
+    function lowerLeft
+        if(changes(3)==1)  && (dens(row+1,col-1)<PARAM.KRILL_DENSITY)
             dens(row+1,col-1)=dens(row+1,col-1)+1;
             dens(row,col)= dens(row,col)-1;
 
@@ -191,8 +171,9 @@ switch true
          else
             pos = [row,col];
 
-         end
-     case(weight == lowerRight)
+        end
+    end
+    function lowerRight
          if(changes(4)==1) && (dens(row+1,col+1)<PARAM.KRILL_DENSITY)
             dens(row+1,col+1)=dens(row+1,col+1)+1;
             dens(row,col)= dens(row,col)-1;
@@ -201,6 +182,47 @@ switch true
          else
             pos = [row,col];
          end
+    end
+    function upperRight
+        if(changes(2)==1) && (dens(row-1,col+1)<PARAM.KRILL_DENSITY)
+            dens(row-1,col+1)=dens(row-1,col+1)+1;
+            dens(row,col)= dens(row,col)-1;
+
+            pos = [row-1,col+1];
+        else
+            pos = [row,col];
+        end
+    end
+                   
+switch true
+    case(weight==0)
+        strDi = ["up","down","left","right","upperLeft","upperRight","lowerLeft","lowerRight"];
+        dir=[];
+        for n=1:8
+            if (d.(strDi(n))==0)
+                dir = [dir,strDi(n)];
+            end
+        end             
+        dir = dir(randperm(length(dir)));
+        di = dir(1); 
+        eval(di);
+    case(weight == d.up)
+        up
+    case (weight == d.upperLeft)
+        upperLeft
+      
+    case(weight == d.upperRight)
+         upperRight
+     case(weight == d.right)
+         right
+     case(weight == d.left) 
+         left
+     case(weight == d.down)
+         down
+     case(weight == d.lowerLeft)
+         lowerLeft
+     case(weight == d.lowerRight)
+         lowerRight
 end
 % change environment 
 ENVIRONMENT.krill = dens;

@@ -33,7 +33,7 @@ global N_IT ENVIRONMENT PARAM MESSAGES IT_STATS
 %MODEL EXECUTION
 %execute for number of iterations
 N_IT=0;
-plot_results(agents,nsteps,true,true); %updates results figures and structures
+plot_results(agents,nsteps,false,true); %updates results figures and structures
 disp(ENVIRONMENT.krill);
 disp(ENVIRONMENT.herring);
 for n_it=1:nsteps
@@ -49,7 +49,7 @@ for cn=1:length(agents)
     if MESSAGES.atype(cn)==0
         coords = MESSAGES.pos(cn,:);
         ENVIRONMENT.krill(coords(1),coords(2))=ENVIRONMENT.krill(coords(1),coords(2))-1;
-        count = count +1;
+        count = count + 1;
     end
 end
 plot_results(agents,nsteps,true,true); %updates results figures and structures

@@ -18,7 +18,7 @@ eaten=0;
 for cn=1:n
 	curr=agent{cn};
      if isa(curr,'fish')
-         %[curr,eaten]=eat(curr,cn);               %eating rules (rabbits eat food, foxes eat rabbits)
+         [curr,eaten]=eat(curr,cn);               %eating rules (rabbits eat food, foxes eat rabbits)
          if eaten==0
             curr=move(curr);              %if no food was eaten, then migrate in search of some
          end
