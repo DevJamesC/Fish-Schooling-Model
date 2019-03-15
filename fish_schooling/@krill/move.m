@@ -12,7 +12,7 @@ changes=[0,0,0,0,0,0,0,0];
 % [1,2,3]
 perception = 1:1:(krill.perception);
 perceptionReverse = sort(perception,'descend');
-m=5;
+m=1000;
 
 % environment densities
 dens = ENVIRONMENT.krill;
