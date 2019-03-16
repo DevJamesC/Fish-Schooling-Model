@@ -43,7 +43,7 @@ for cn=1:temp_n
          if isa(agent{cn},'krill')
              MESSAGES.atype(cn)=1;
              IT_STATS.tot_r(N_IT+1)=IT_STATS.tot_r(N_IT+1)+1;
-         elseif isa(agent{cn},'fish')
+         elseif isa(agent{cn},'herring')
              MESSAGES.atype(cn)=2;
          end
          MESSAGES.dead(cn)=0;           %clear death message

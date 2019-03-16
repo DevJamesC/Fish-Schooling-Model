@@ -17,7 +17,7 @@ eaten=0;
 %execute existing agent update loop
 for cn=1:n
 	curr=agent{cn};
-     if isa(curr,'fish')
+     if isa(curr,'herring')
          [curr,eaten]=eat(curr,cn);               %eating rules (rabbits eat food, foxes eat rabbits)
          if eaten==0
             curr=move(curr);              %if no food was eaten, then migrate in search of some

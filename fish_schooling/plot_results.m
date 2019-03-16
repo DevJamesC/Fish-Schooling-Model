@@ -83,7 +83,7 @@ function plot_results(agent,nsteps,fmode,outImages)
         for cn=1:length(agent)                          %cycle through each agent in turn
             %if typ(cn)>0                                %only plot live agents
             pos=get(agent{cn},'position');               %extract current position    
-            if isa(agent{cn},'fish')              %choose plot colour depending on agent type
+            if isa(agent{cn},'herring')              %choose plot colour depending on agent type
                 ro=plot(pos(1),pos(2),'r.'); %USE THIS TO CHANGE HERRING COLOUR -JC
                 set(ro,'MarkerSize',30);
             elseif isa(agent{cn},'krill') 

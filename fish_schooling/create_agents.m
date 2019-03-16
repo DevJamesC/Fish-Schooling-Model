@@ -1,4 +1,4 @@
-function [agents] = create_agents(nf,nk)
+function [agents] = create_agents(nh,nk)
 %CREATE_FISH Summary of this function goes here
 %   Detailed explanation goes here
 % creates the objects representing each fish
@@ -6,12 +6,14 @@ function [agents] = create_agents(nf,nk)
 global ENVIRONMENT PARAM
 HERRING_DENSITY = PARAM.HERRING_DENSITY;
 KRILL_DENSITY = PARAM.KRILL_DENSITY;
-agents = cell(nf+nk);
+KRILL_PERCEPTION = PARAM.KRILL_PERCEPTION;
+HERRING_PERCEPTION=PARAM.HERRING_PERCEPTION;
+agents = cell(nh+nk);
 agents = agents(1,:);
 
 s=ENVIRONMENT.size;
 
-    for f=1:nf
+    for h=1:nh
         %pos = round(((s-1)*rand(1, 2)+1);
         pos = [round((s/2-1)*rand+1),round(((s-1)*rand+1))];
         % if the position is full, keep looping until a position is found
@@ -21,12 +23,12 @@ s=ENVIRONMENT.size;
             pos = [round((s/2-1)*rand+1),round(((s-1)*rand+1))];
             %will be a 1x2 matrix like [1,2]
         end
-        agents{f} = fish(pos,10);
+        agents{h} = herring(pos,HERRING_PERCEPTION);
         % add the fish to the environment space
         ENVIRONMENT.herring(pos(1, 1), pos(1, 2)) = ENVIRONMENT.herring(pos(1, 1), pos(1, 2)) + 1;
         %like array value calling another array value
     end
-    for k=(nf+1):(nk+nf)
+    for k=(nh+1):(nk+nh)
         pos = [round((s/2-1)*rand+1)+(s/2),round(((s-1)*rand+1))]; 
         % if the position is full, keep looping until a position is found
         % that has space available 
@@ -34,7 +36,7 @@ s=ENVIRONMENT.size;
             pos = [round((s/2-1)*rand+1)+(s/2),round(((s-1)*rand+1))]; 
             %will be a 1x2 matrix like [1,2]
         end
-        agents{k} = krill(pos,12);
+        agents{k} = krill(pos,KRILL_PERCEPTION);
         % add the krill to the environment space
         ENVIRONMENT.krill(pos(1, 1), pos(1, 2)) = ENVIRONMENT.krill(pos(1, 1), pos(1, 2)) + 1;
         %like array value calling another array value

@@ -1,4 +1,4 @@
-function fish_schooling(size, nf,nk, nsteps,fmode)
+function fish_schooling(size, nh,nk, nsteps,fmode)
 %FISH_SCHOOLING Summary of this function goes here
 %   Detailed explanation goes here
 % FISH_SCHOOLING agent-based herring schooling model
@@ -19,9 +19,9 @@ initialise_params;                      %sets the parameters for this simulation
 create_environment(size);           %creates environment data structure, given an environment size
 create_control();
 random_selection(1);                %randomises random number sequence (NOT agent order). If input=0, then simulation should be identical to previous for same initial values
-[agents]=create_agents(nf,nk);       %creates nf fish agents and places them in a cell array called 'agents'
-create_messages(nf,nk,agents);
-initialise_results(nf,nk,nsteps);   %initilaises structure for storing results
+[agents]=create_agents(nh,nk);       %creates nf fish agents and places them in a cell array called 'agents'
+create_messages(nh,nk,agents);
+initialise_results(nh,nk,nsteps);   %initilaises structure for storing results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 global N_IT ENVIRONMENT PARAM MESSAGES IT_STATS
@@ -43,18 +43,8 @@ for n_it=1:nsteps
     plot_results(agents,nsteps,true,true); %updates results figures and structures
 end
 plot_results(agents,nsteps,true,true); %updates results figures and structures
-count=0;
 typ=MESSAGES.atype;                                         %extract types of all agents
-for cn=1:length(agents)
-    if MESSAGES.atype(cn)==0
-        coords = MESSAGES.pos(cn,:);
-        ENVIRONMENT.krill(coords(1),coords(2))=ENVIRONMENT.krill(coords(1),coords(2))-1;
-        count = count + 1;
-    end
-end
 plot_results(agents,nsteps,true,true); %updates results figures and structures
-disp(ENVIRONMENT.krill);
-disp(ENVIRONMENT.herring);
 disp(length(find(typ==0)));    
 disp(length(find(typ==1)));         
 disp(length(find(typ==2)));         

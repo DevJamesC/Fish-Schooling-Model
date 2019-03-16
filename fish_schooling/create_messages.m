@@ -17,7 +17,7 @@ function create_messages(nr,nf,agent)
      if isa(agent{an},'krill')
         MESSAGES.atype(an)=1;
         MESSAGES.pos(an,:)=get(agent{an},'position');
-     elseif isa(agent{an},'fish')
+     elseif isa(agent{an},'herring')
         MESSAGES.atype(an)=2;
         MESSAGES.pos(an,:)=get(agent{an},'position');
      else
