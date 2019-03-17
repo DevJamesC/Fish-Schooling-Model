@@ -14,12 +14,11 @@ agents = agents(1,:);
 s=ENVIRONMENT.size;
 
     for h=1:nh
-        %pos = round(((s-1)*rand(1, 2)+1);
+        % spawn herring on 1 side of the grid 
         pos = [round((s/2-1)*rand+1),round(((s-1)*rand+1))];
         % if the position is full, keep looping until a position is found
         % that has space available 
         while ~(ENVIRONMENT.herring(pos(1, 1), pos(1,2)) < HERRING_DENSITY)
-            %pos = round((s-1)*rand(1, 2)+1);
             pos = [round((s/2-1)*rand+1),round(((s-1)*rand+1))];
             %will be a 1x2 matrix like [1,2]
         end
@@ -29,6 +28,7 @@ s=ENVIRONMENT.size;
         %like array value calling another array value
     end
     for k=(nh+1):(nk+nh)
+        % spawn krill on other side of grid
         pos = [round((s/2-1)*rand+1)+(s/2),round(((s-1)*rand+1))]; 
         % if the position is full, keep looping until a position is found
         % that has space available 

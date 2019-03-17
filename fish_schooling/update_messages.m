@@ -42,7 +42,7 @@ for cn=1:temp_n
         MESSAGES.pos(cn,:)=pos;                    
          if isa(agent{cn},'krill')
              MESSAGES.atype(cn)=1;
-             IT_STATS.tot_r(N_IT+1)=IT_STATS.tot_r(N_IT+1)+1;
+             IT_STATS.tot_k(N_IT+1)=IT_STATS.tot_k(N_IT+1)+1;
          elseif isa(agent{cn},'herring')
              MESSAGES.atype(cn)=2;
          end

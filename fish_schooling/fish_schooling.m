@@ -18,9 +18,8 @@ close all
 initialise_params;                      %sets the parameters for this simulation
 create_environment(size);           %creates environment data structure, given an environment size
 create_control();
-random_selection(1);                %randomises random number sequence (NOT agent order). If input=0, then simulation should be identical to previous for same initial values
-[agents]=create_agents(nh,nk);       %creates nf fish agents and places them in a cell array called 'agents'
-create_messages(nh,nk,agents);
+[agents]=create_agents(nh,nk);       %creates nh herring agents and nk krill agents and places them in a cell array called 'agents'
+create_messages(nh,nk,agents);      %create message list 
 initialise_results(nh,nk,nsteps);   %initilaises structure for storing results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -33,8 +32,7 @@ global N_IT ENVIRONMENT PARAM MESSAGES IT_STATS
 %MODEL EXECUTION
 %execute for number of iterations
 N_IT=0;
-%plot_results(agents,nsteps,false,true); %updates results figures and structures
-%disp(ENVIRONMENT.herring);
+plot_results(agents,nsteps,false,true); %updates results figures and structures
 for n_it=1:nsteps
     N_IT=n_it;
     % update agents for number of agents 
@@ -44,11 +42,10 @@ end
 
 
 
-typ=MESSAGES.atype;                                         %extract types of all agents
+typ=MESSAGES.atype;                    %extract types of all agents
 plot_results(agents,nsteps,true,true); %updates results figures and structures
-disp(length(find(typ==0)));    
-disp(length(find(typ==1)));         
-disp(length(find(typ==2)));         
+disp(length(find(typ==0)));    % disp number of dead krill 
+disp(length(find(typ==1)));    % number left alive 
 clear global
 end
 

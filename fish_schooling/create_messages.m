@@ -10,6 +10,8 @@ function create_messages(nr,nf,agent)
    %    MESSAGES.pos - list of every agent position in [x y]
    %    MESSAGE.dead - n x1 array containing ones for agents that have died
    %    in the current iteration
+   %    MESSAGE.thisIter - n x 1 array listing whether the agent died in
+   %    this iteration or not (1=yes,2=no)
    
  global MESSAGES
  
