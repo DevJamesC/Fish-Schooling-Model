@@ -33,16 +33,17 @@ global N_IT ENVIRONMENT PARAM MESSAGES IT_STATS
 %MODEL EXECUTION
 %execute for number of iterations
 N_IT=0;
-plot_results(agents,nsteps,false,true); %updates results figures and structures
-disp(ENVIRONMENT.krill);
-disp(ENVIRONMENT.herring);
+%plot_results(agents,nsteps,false,true); %updates results figures and structures
+%disp(ENVIRONMENT.herring);
 for n_it=1:nsteps
     N_IT=n_it;
     % update agents for number of agents 
     [agents,n]=agnt_solve(agents);     %the function which calls the rules
-    plot_results(agents,nsteps,true,true); %updates results figures and structures
+   plot_results(agents,nsteps,true,true); %updates results figures and structures
 end
-plot_results(agents,nsteps,true,true); %updates results figures and structures
+
+
+
 typ=MESSAGES.atype;                                         %extract types of all agents
 plot_results(agents,nsteps,true,true); %updates results figures and structures
 disp(length(find(typ==0)));    

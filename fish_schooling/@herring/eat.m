@@ -21,7 +21,7 @@ function [agt,eaten]=eat(agt,cn)
    %    MESSAGES.pos - list of every agent position in [x y]
    %    MESSAGE.dead - n x1 array containing ones for agents that have died
 
-global MESSAGES PARAM
+global MESSAGES PARAM ENVIRONMENT
    
 pos=agt.position;                        %extract current position 
 spd=agt.perception;                    
@@ -33,6 +33,9 @@ rpos=MESSAGES.pos(rb,:);                                     %extract positions 
 csep=sqrt((rpos(:,1)-pos(:,1)).^2+(rpos(:,2)-pos(:,2)).^2);  %calculate distance to all krill
 [d,ind]=min(csep);                                            %d is distance to closest krill, ind is index of that krill
 nrst=rb(ind);                                                %index of nearest rabbit(s)
+nx=MESSAGES.pos(nrst,1);    %extract exact location of this krill
+ny=MESSAGES.pos(nrst,2);
+npos=[nx ny];    
 
 if d<=spd&length(nrst)>0   %if there is at least one  rabbit within the search radius        
     if length(nrst)>1       %if more than one rabbit located at same distance then randomly pick one to head towards
@@ -40,13 +43,10 @@ if d<=spd&length(nrst)>0   %if there is at least one  rabbit within the search r
         nrst=nrst(s);
     end
     pk=(1-(d/spd))*0.5;%probability that herring will kill krill is ratio of speed to distance
-    if d>5
+    if d>5||(ENVIRONMENT.krill(nx,ny))>8
         pk=0;
     end
     if pk>rand
-        nx=MESSAGES.pos(nrst,1);    %extract exact location of this krill
-        ny=MESSAGES.pos(nrst,2);
-        npos=[nx ny];    
         eaten=1;
         MESSAGES.dead(nrst)=1;       %send message to krill so it knows it's dead!
     end

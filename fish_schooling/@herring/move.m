@@ -60,7 +60,7 @@ denk = ENVIRONMENT.krill;
       for j = perceptionReverse
           if((herring.position(1)+j<=ENVIRONMENT.size) && (herring.position(2)+i<=ENVIRONMENT.size))
              d.lowerRight = d.lowerRight + dens(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j))...
-                 +mult*denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));;
+                 +mult*denk(herring.position(1) + j, herring.position(2) + i)./max(abs(i), abs(j));
              changes(4)=1;
           end
       end

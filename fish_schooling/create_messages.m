@@ -25,5 +25,6 @@ function create_messages(nr,nf,agent)
         MESSAGES.pos(an,:)=[-1 -1];
      end
      MESSAGES.dead(an)=0;
+     MESSAGES.thisIter(an)=0;
  end
      

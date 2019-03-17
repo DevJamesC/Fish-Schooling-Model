@@ -51,5 +51,10 @@ for cn=1:temp_n
     else                                %agent has died
         MESSAGES.atype(cn)=0;           %set type to dead
         MESSAGES.dead(cn)=0;            %clear death message
+        if MESSAGES.thisIter(cn)==1     
+            coords = MESSAGES.pos(cn,:);
+            ENVIRONMENT.krill(coords(1),coords(2))=ENVIRONMENT.krill(coords(1),coords(2))-1;
+            MESSAGES.thisIter(cn)=0;
+        end
     end
 end
