@@ -3,26 +3,25 @@ function [updatedHerring] = move(herring)
 
 global ENVIRONMENT PARAM
 
-%variables for weight values
+%struct for direction weight values
 d=struct('up',0,'down',0,'left',0,'right',0,'upperLeft',0,...
     'upperRight',0,'lowerLeft',0,'lowerRight',0);
 changes=[0,0,0,0,0,0,0,0];
 
-% vectors basedon perception e.g. fish.perception = 3 is 
+% vectors basedon perception e.g. herring.perception = 3 is 
 % [1,2,3]
 perception = 1:1:(herring.perception);
 perceptionReverse = sort(perception,'descend');
 mult=2; %multiplier for how much more the krill should affect the weighting
 
-% environment densities
+% environment densities used to calculate weights
 dens = ENVIRONMENT.herring;
 denk = ENVIRONMENT.krill;
 
 %calculate weighting for upper left
  for i = perceptionReverse*-1
      for j = perceptionReverse*-1
-         % check if this area is off the grid, if so then weight is
-         % calculated off current position,
+         % check if this area is off the grid
          % if not then go ahead and calculate weight of
          % the positions in that direction 
          if (((herring.position(1)+j>0) && herring.position(2)+i>0))   
@@ -117,8 +116,10 @@ col = herring.position(2);
 
     function up
         if(changes(7)==1) && (dens(row-1,col)<PARAM.HERRING_DENSITY)  
+           % change densities from 1 position to the next
            dens(row-1,col)=dens(row-1,col)+1;
            dens(row,col)= dens(row,col)-1;
+           % change position of the fish 
            pos = [row-1,col];
         else
            pos = [row,col];
@@ -200,15 +201,16 @@ col = herring.position(2);
 switch true
     % if greatest weight is 0 then pick a random direction which has weight 0 
     case(weight==0)
-        strDi = ["up","down","left","right","upperLeft","upperRight","lowerLeft","lowerRight"];
-        dir=[];
+        dirStrings = ["up","down","left","right","upperLeft","upperRight","lowerLeft","lowerRight"];
+        direction=[];
+        %get all directions where weight  = 0 
         for n=1:8
-            if (d.(strDi(n))==0)
-                dir = [dir,strDi(n)];
+            if (d.(dirStrings(n))==0)
+                direction = [direction,dirStrings(n)];
             end
         end
-        dir = dir(randperm(length(dir)));
-        di = dir(1); 
+        direction = direction(randperm(length(direction)));
+        di = direction(1); 
         eval(di);
     case(weight == d.up)
         up

@@ -1,6 +1,6 @@
 function create_environment(size)
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
+%function that populates the global data structure representing
+%environmental information
 global ENVIRONMENT PARAM
 
 ENVIRONMENT.shape='square';

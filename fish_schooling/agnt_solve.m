@@ -11,7 +11,6 @@ function [nagent,nn]=agnt_solve(agent)
 global MESSAGES
 
 n=length(agent);    %current no. of agents
-prev_n=n;   %remember current agent number at the start of this iteration
 eaten=0;
 %execute existing agent update loop
 for cn=1:n
@@ -29,5 +28,5 @@ for cn=1:n
      agent{cn}=curr;                          %up date cell array with modified agent data structure
 end
  
-[nagent,nn]=update_messages(agent,prev_n);   %function which update message list and 'kills off' dead agents.
+[nagent,nn]=update_messages(agent,n);   %function which update message list and 'kills off' dead agents.
 

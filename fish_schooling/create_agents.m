@@ -1,7 +1,13 @@
 function [agents] = create_agents(nh,nk)
-%CREATE_FISH Summary of this function goes here
-%   Detailed explanation goes here
-% creates the objects representing each fish
+%   creates the objects representing each agent     
+
+%agents - cell array containing list of objects representing agents
+%nh - number of herring
+%nk - number of krill 
+
+%global parameters 
+%ENVIRONMENT - data structure representing the environment 
+%PARAM - data structure containing parameters for agents
 
 global ENVIRONMENT PARAM
 HERRING_DENSITY = PARAM.HERRING_DENSITY;
@@ -20,12 +26,10 @@ s=ENVIRONMENT.size;
         % that has space available 
         while ~(ENVIRONMENT.herring(pos(1, 1), pos(1,2)) < HERRING_DENSITY)
             pos = [round((s/2-1)*rand+1),round(((s-1)*rand+1))];
-            %will be a 1x2 matrix like [1,2]
         end
         agents{h} = herring(pos,HERRING_PERCEPTION);
-        % add the fish to the environment space
+        % add the herring to the environment space
         ENVIRONMENT.herring(pos(1, 1), pos(1, 2)) = ENVIRONMENT.herring(pos(1, 1), pos(1, 2)) + 1;
-        %like array value calling another array value
     end
     for k=(nh+1):(nk+nh)
         % spawn krill on other side of grid
@@ -34,12 +38,10 @@ s=ENVIRONMENT.size;
         % that has space available 
         while ~(ENVIRONMENT.krill(pos(1, 1), pos(1,2)) < KRILL_DENSITY)
             pos = [round((s/2-1)*rand+1)+(s/2),round(((s-1)*rand+1))]; 
-            %will be a 1x2 matrix like [1,2]
         end
         agents{k} = krill(pos,KRILL_PERCEPTION);
         % add the krill to the environment space
         ENVIRONMENT.krill(pos(1, 1), pos(1, 2)) = ENVIRONMENT.krill(pos(1, 1), pos(1, 2)) + 1;
-        %like array value calling another array value
     end
 end
 
