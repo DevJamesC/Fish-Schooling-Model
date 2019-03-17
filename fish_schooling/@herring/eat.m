@@ -45,7 +45,7 @@ if d<=spd&length(nrst)>0   %if there is at least one  rabbit within the search r
     pk=(1-(d/spd))*0.5;%probability that herring will kill krill is ratio of speed to distance
     %if distance is greater than 5 OR %density of the krills position is greater than the maximum density - 2 
     %set probability of that krill dying to 0
-    if d>5||(ENVIRONMENT.krill(nx,ny))>9
+    if d>5||(ENVIRONMENT.krill(nx,ny))>(PARAM.KRILL_DENSITY-2)
         pk=0;
     end
     if pk>rand
