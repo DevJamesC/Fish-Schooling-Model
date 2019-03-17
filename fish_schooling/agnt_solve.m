@@ -29,5 +29,5 @@ for cn=1:n
      agent{cn}=curr;                          %up date cell array with modified agent data structure
 end
  
-[nagent,nn]=update_messages(agent,prev_n,prev_n);   %function which update message list and 'kills off' dead agents.
+[nagent,nn]=update_messages(agent,prev_n);   %function which update message list and 'kills off' dead agents.
 

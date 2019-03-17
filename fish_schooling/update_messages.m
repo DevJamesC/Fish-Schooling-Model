@@ -1,4 +1,4 @@
-function [nagent,nn]=update_messages(agent,prev_n,temp_n)
+function [nagent,nn]=update_messages(agent,prev_n)
 
 %copy all surviving and new agents in to a new agent list - dead agents
 %will be empty structures
@@ -26,13 +26,11 @@ function [nagent,nn]=update_messages(agent,prev_n,temp_n)
 
 global MESSAGES  N_IT ENVIRONMENT IT_STATS
 
-nagent=cell(1,temp_n);                  %initialise list for surviving agents
+nagent=cell(1,prev_n);                  %initialise list for surviving agents
 nn=0;                                   %tracks number of surviving agents
-for cn=1:temp_n
+for cn=1:prev_n
     if isempty(agent{cn})               %agent died in a previous iteration (not the current one)
         dead=1;
-    elseif cn<=prev_n                   %agent is not new, therefore it might have died
-        dead=MESSAGES.dead(cn);         %will be one for agents that have died, zero otherwise
     else 
         dead=0;
     end
