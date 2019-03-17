@@ -32,17 +32,17 @@ global N_IT ENVIRONMENT PARAM MESSAGES IT_STATS
 %MODEL EXECUTION
 %execute for number of iterations
 N_IT=0;
+typ=MESSAGES.atype;                    %extract types of all agents
 plot_results(agents,nsteps,false,true); %updates results figures and structures
 for n_it=1:nsteps
     N_IT=n_it;
     % update agents for number of agents 
     [agents,n]=agnt_solve(agents);     %the function which calls the rules
     plot_results(agents,nsteps,true,true); %updates results figures and structures
+    disp(length(find(typ==0)));    % disp number of dead krill 
 end
 
 
-
-typ=MESSAGES.atype;                    %extract types of all agents
 plot_results(agents,nsteps,true,true); %updates results figures and structures
 disp(length(find(typ==0)));    % disp number of dead krill 
 disp(length(find(typ==1)));    % number left alive 

@@ -32,7 +32,7 @@ for cn=1:prev_n
     if isempty(agent{cn})               %agent died in a previous iteration (not the current one)
         dead=1;
     else 
-        dead=0;
+        dead=MESSAGES.dead(cn);         %will be one for agents that have died, zero otherwise	
     end
     if dead==0                          %if agent is not dead
         nagent{cn}=agent{cn};           %copy object into the new list
