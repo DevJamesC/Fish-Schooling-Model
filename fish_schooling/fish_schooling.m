@@ -8,6 +8,7 @@ function fish_schooling(size, nh,nk, nsteps,fmode)
 %size = size of model environment in m
 %nf - number of fish agents
 %nsteps - number of iterations required
+%fmode - whether fmode is on or not
 
 %clear any global variables/ close figures from previous simulations
 clear global
@@ -32,16 +33,16 @@ global N_IT ENVIRONMENT PARAM MESSAGES IT_STATS
 %MODEL EXECUTION
 %execute for number of iterations
 N_IT=0;
-plot_results(agents,nsteps,false,true); %updates results figures and structures
+plot_results(agents,nsteps,fmode,true); %updates results figures and structures
 for n_it=1:nsteps
     N_IT=n_it;
     % update agents for number of agents 
     [agents,n]=agnt_solve(agents);     %the function which calls the rules
-    plot_results(agents,nsteps,true,true); %updates results figures and structures
+    plot_results(agents,nsteps,fmode,true); %updates results figures and structures
 end
 
 typ=MESSAGES.atype;                    %extract types of all agents
-plot_results(agents,nsteps,true,true); %updates results figures and structures
+plot_results(agents,nsteps,fmode,true); %updates results figures and structures
 disp(length(find(typ==0)));    % disp number of dead krill 
 disp(length(find(typ==1)));    % number left alive 
 clear global
